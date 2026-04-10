@@ -1,0 +1,3 @@
+API_KEY = "87bc5a5b3eb4f9d629def5deb9ed9fb9"
+MY_LAT = 51.507351
+MY_LONG = -0.127758
