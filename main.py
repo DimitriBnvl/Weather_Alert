@@ -107,6 +107,14 @@ def output_message(detected_events):
     return output_string
 
 def send_message(weather_alert):
+    """
+
+    Args:
+        weather_alert (str): Message containing the weather alert.
+
+    Returns:
+        Returns the message status, ensuring that it was sent successfully.
+    """
     client = Client(ACCOUNT_SID, AUTH_TOKEN)
 
     message = client.messages.create(
