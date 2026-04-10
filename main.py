@@ -1,6 +1,13 @@
 import requests
+from twilio.rest import Client
+from dotenv import load_dotenv
+import os
 
-API_KEY           = "87bc5a5b3eb4f9d629def5deb9ed9fb9"
+load_dotenv()
+
+ACCOUNT_SID       = os.environ.get("TWILIO_ACCOUNT_SID")
+AUTH_TOKEN        = os.environ.get("TWILIO_AUTH_TOKEN")
+API_KEY           = os.environ.get("OWM_API_KEY")
 OWM_ENDPOINT      = "https://api.openweathermap.org/data/2.5/forecast"
 MY_LAT            = 55.953251
 MY_LONG           = -3.188267
@@ -80,13 +87,21 @@ def detect_precipitation(data):
     return detected_events
 
 
-def output_message(detected_events):
+def send_message(detected_events):
     """
     Prints the message for the detected weather events.
 
     Args:
         detected_events (list): A list of dictionaries, each describing a weather event found and its timestamp.
     """
+    client = Client(ACCOUNT_SID, AUTH_TOKEN)
+
+    message = client.messages.create(
+      from_='whatsapp:+14155238886',
+      content_sid='HXb5b62575e6e4ff6129ad7c8efe1f983e',
+      to='whatsapp:+393318026480'
+    )
+
     if detected_events:
         print("Precipitation detected:")
         for event in detected_events:
@@ -99,4 +114,4 @@ def output_message(detected_events):
 
 weather_data = request_weather(weather_parameters)
 events = detect_precipitation(weather_data)
-output_message(events)
+send_message(events)
