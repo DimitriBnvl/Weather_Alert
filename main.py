@@ -46,13 +46,13 @@ def get_time_offset(index, interval):
 
 def detect_precipitation(data):
     """
-    Analyzes the weather data to identify precipitation events.
+    Analyzes the weather data to identify precipitation events in the next 12 hours.
 
     Args:
         data (dict): The weather forecast data from the OWM API.
 
     Returns:
-        list: A list of dictionaries, each describing a weather event found.
+        list: A list of dictionaries, each describing a weather event found and its timestamp.
               Format: [{"condition": str, "hour_offset": int}, ...]
     """
     detected_events = []
@@ -81,6 +81,12 @@ def detect_precipitation(data):
 
 
 def output_message(detected_events):
+    """
+    Prints the message for the detected weather events.
+
+    Args:
+        detected_events (list): A list of dictionaries, each describing a weather event found and its timestamp.
+    """
     if detected_events:
         print("Precipitation detected:")
         for event in detected_events:
