@@ -2,8 +2,8 @@ import requests
 
 API_KEY           = "87bc5a5b3eb4f9d629def5deb9ed9fb9"
 OWM_ENDPOINT      = "https://api.openweathermap.org/data/2.5/forecast"
-MY_LAT            = 55.953251
-MY_LONG           = -3.188267
+MY_LAT            = 33.1128
+MY_LONG           = 139.7890
 UNITS             = "metric"
 TIMESTEPS         = 5
 TIMESTEP_INTERVAL = 3 # Number of hours between each timestep
@@ -57,9 +57,9 @@ def detect_precipitation(data):
     """
     detected_events = []
 
-    for index, item in enumerate(data["list"]):
+    for index, data_entry in enumerate(data["list"]):
         hour_offset = get_time_offset(index, TIMESTEP_INTERVAL)
-        weather_id = item["weather"][0]["id"]
+        weather_id = data_entry["weather"][0]["id"]
         
         condition = None
         if 200 <= weather_id < 300:
@@ -79,12 +79,18 @@ def detect_precipitation(data):
             
     return detected_events
 
+
+def output_message(detected_events):
+    if detected_events:
+        print("Precipitation detected:")
+        for event in detected_events:
+            if event['hour_offset'] == 0:
+                print(f"    It is {event['condition'].lower()}ing right now.")
+            else:
+                print(f"    {event['condition']} in {event['hour_offset']} hours from now.")
+    else:
+        print("No precipitation detected in the forecast period.")
+
 weather_data = request_weather(weather_parameters)
 events = detect_precipitation(weather_data)
-
-if events:
-    print("Precipitation detected:")
-    for event in events:
-        print(f"- {event['condition']} at {event['hour_offset']} hours from now.")
-else:
-    print("No precipitation detected in the forecast period.")
+output_message(events)
