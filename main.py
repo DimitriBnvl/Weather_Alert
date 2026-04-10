@@ -29,18 +29,22 @@ def detect_precipitation(data):
     snowfall_detected     = False
 
     for index in range(len(data["list"])):
-        if 200 <= data["list"][index]["main"]["temp"] < 300:
+        timestep = index * TIMESTEP_INTERVAL
+        weather_condition = data["list"][index]["main"]["temp"]
+
+        if 200 <= weather_condition < 300:
             thunderstorm_detected = True
-            thunderstorm_time = index * TIMESTEPS
-        if 300 <= data["list"][index]["main"]["temp"] < 400:
+            thunderstorm_time = timestep
+        if 300 <= weather_condition < 400:
             drizzle_detected = True
-            drizzle_detect_time = index * TIMESTEPS
-        if 500 <= data["list"][index]["main"]["temp"] < 600:
+            drizzle_time = timestep
+        if 500 <= weather_condition < 600:
             rainfall_detected = True
-            rainfall_detect_time = index * TIMESTEPS
-        if 600 <= (data["list"][index]["weather"][0]["id"]) < 700:
+            rainfall_time = timestep
+        if 600 <= weather_condition < 700:
             snowfall_detected = True
-            snowfall_time     = index * TIMESTEP_INTERVAL
+            snowfall_time = timestep
+
 
 weather_data = request_weather(weather_parameters)
 detect_precipitation(weather_data)
