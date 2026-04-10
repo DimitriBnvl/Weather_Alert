@@ -2,8 +2,8 @@ import requests
 
 API_KEY           = "87bc5a5b3eb4f9d629def5deb9ed9fb9"
 OWM_ENDPOINT      = "https://api.openweathermap.org/data/2.5/forecast"
-MY_LAT            = 33.1128
-MY_LONG           = 139.7890
+MY_LAT            = 55.953251
+MY_LONG           = -3.188267
 UNITS             = "metric"
 TIMESTEPS         = 5
 TIMESTEP_INTERVAL = 3 # Number of hours between each timestep
