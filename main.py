@@ -95,17 +95,29 @@ def output_message(detected_events):
         detected_events (list): A list of dictionaries, each describing a weather event found and its timestamp.
     """
     if detected_events:
-        output_string = "Precipitation detected:"
+        output_string = "Precipitation detected:\n"
         for event in detected_events:
             if event['hour_offset'] == 0:
-                output_string += f"    It is {event['condition'].lower()}ing right now."
+                output_string += f"    It is {event['condition'].lower()}ing right now.\n"
             else:
-                output_string += f"    {event['condition']} in {event['hour_offset']} hours from now."
+                output_string += f"    {event['condition']} in {event['hour_offset']} hours from now.\n"
     else:
         output_string = "No precipitation detected in the forecast period."
 
     return output_string
 
+def send_message(weather_alert):
+    client = Client(ACCOUNT_SID, AUTH_TOKEN)
+
+    message = client.messages.create(
+        body=weather_alert,
+        from_='whatsapp:+14155238886',
+        to='whatsapp:+393318026480'
+    )
+
+    return message.status
+
 weather_data = request_weather(weather_parameters)
 events = detect_precipitation(weather_data)
-output_message(events)
+alert = output_message(events)
+print(send_message(alert))
