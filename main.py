@@ -5,15 +5,17 @@ import os
 
 load_dotenv()
 
-ACCOUNT_SID       = os.environ.get("TWILIO_ACCOUNT_SID")
-AUTH_TOKEN        = os.environ.get("TWILIO_AUTH_TOKEN")
-API_KEY           = os.environ.get("OWM_API_KEY")
-OWM_ENDPOINT      = "https://api.openweathermap.org/data/2.5/forecast"
-MY_LAT            = 55.953251
-MY_LONG           = -3.188267
-UNITS             = "metric"
-TIMESTEPS         = 5
-TIMESTEP_INTERVAL = 3 # Number of hours between each timestep
+ACCOUNT_SID           = os.environ.get("TWILIO_ACCOUNT_SID")
+AUTH_TOKEN            = os.environ.get("TWILIO_AUTH_TOKEN")
+API_KEY               = os.environ.get("OWM_API_KEY")
+RECEIVER_PHONE_NUMBER = os.environ.get("RECEIVER_PHONE_NUMBER")
+SENDER_PHONE_NUMBER   = os.environ.get("SENDER_PHONE_NUMBER")
+OWM_ENDPOINT          = "https://api.openweathermap.org/data/2.5/forecast"
+MY_LAT                = 55.953251
+MY_LONG               = -3.188267
+UNITS                 = "metric"
+TIMESTEPS             = 5
+TIMESTEP_INTERVAL     = 3 # Number of hours between each timestep
 
 weather_parameters = {
     "lat"  : MY_LAT,
@@ -119,8 +121,8 @@ def send_message(weather_alert):
 
     message = client.messages.create(
         body=weather_alert,
-        from_='whatsapp:+14155238886',
-        to='whatsapp:+393318026480'
+        from_=f"whatsapp:{SENDER_PHONE_NUMBER}",
+        to=f"whatsapp:{RECEIVER_PHONE_NUMBER}"
     )
 
     return message.status
